@@ -39,6 +39,7 @@ In this project, The DCGAN model presented by Keras is used as the baseline mode
 </p>
 I tried several improvements to prevent overfitting. I added multiple dropout layers to the model. Additionally, a middle dense layer also was put. Moreover, Instead of using Flatten, I used GlobalAveragePooling2D. Flatten simply flattens the feature maps into a 1-dimensional vector, on the other hand, GlobalAveragePooling2D computes the average value for each channel of the feature maps and extracts them as feature vectors. By using GlobalAveragePooling2D, I can reduce the number of parameters compared to Flatten, it  results in a simpler model and expected prevention of overfitting.
 
+
 **Generator**
 <p align="center">
   <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/69ef821d-1f09-4c44-b15e-e80fdac6c5bd" />
