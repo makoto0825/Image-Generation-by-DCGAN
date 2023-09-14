@@ -16,4 +16,9 @@ Gan is one of the techniques commonly used in the field of image processing. It 
 <p align="center">
   <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/872fc9ac-0ca7-4d56-bd2e-226e25af58db" />
 </p>
-GAN consists of two architectures: the generator and the discriminator. The generator aims to generate image that resembles the training data, on the other hand the discriminator aims to distinguish between real and generated image. Through iterative tasks performed by these two architectures, the generator ultimately can generate high-quality anime images
+GAN consists of two architectures: the generator and the discriminator. The generator aims to generate image that resembles the training data. On the other hand the discriminator aims to distinguish between real and generated image. Through iterative tasks performed by these two architectures, the generator ultimately can generate high-quality anime images
+
+<p align="center">
+  <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/db9e9652-060c-4678-b4d1-122b6c917664" />
+</p>
+This image shows sample of two architectures. The generator gradually expands features through multiple dense layers and eventually performs a reshape operation to output an image. On the other hand, the discriminator takes an input image through multiple dense layers and outputs a single value, which determining whether the input image is real or fake. The activation function used in both architectures is ReLU.
