@@ -44,3 +44,20 @@ I tried several improvements to prevent overfitting. I added multiple dropout la
   <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/69ef821d-1f09-4c44-b15e-e80fdac6c5bd" />
 </p>
 I have added BatchNormalization layers after the convolutional layers. This performs normalization based on the mean and variance of each batch. Additionally, I have changed the activation function from LeakyReLU to ReLU. While the baseline model's discriminator used LeakyReLU for all layers except the final one, the original DCGAN paper used ReLU, so I adopted it in my model. Furthermore, I set the learning rate for the generator to be twice that of the discriminator. This is because, in general, the discriminator tends to have better accuracy than the generator, so to strike a balance, I set the learning rate to be twice as high for the generator.
+
+## 1.4 Dataset
+<p align="center">
+  <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/e8b99ac7-8424-4602-b87c-d371969bf301" />
+</p>
+I used dataset of anime face images which comes from Kaggle(https://www.kaggle.com/datasets/splcher/animefacedataset).
+
+## 1.5 Result
+<p align="center">
+  <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/e6dafe01-d953-4287-8be8-3e40a29037be" />
+</p>
+This is the output of the baseline model. The training was executed for 200 epochs. In epoch 11, I can see faces but the model collapse was happended. Furthermore, in epoch 200, there is no output.
+
+<p align="center">
+  <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/faed12e6-0ab7-4320-bcde-91ef5bf5b3f5" />
+</p>
+On the other hand, the proposed model was able to generate various types of faces. Even in the final epoch.
