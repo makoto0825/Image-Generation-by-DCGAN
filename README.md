@@ -62,3 +62,49 @@ This is the output of the baseline model. The training was executed for 200 epoc
   <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/faed12e6-0ab7-4320-bcde-91ef5bf5b3f5" />
 </p>
 On the other hand, the proposed model was able to generate various types of faces. Even in the final epoch.
+
+# 2.Code part. 
+In this section, I will show the code and explain it. My architecture is refered to Keras and improved it. 
+Keras: (https://keras.io/examples/generative/dcgan_overriding_train_step/)
+
+# 2.1 Development Environment
+I used Google Colaboratory as our Integrated Development Environment (IDE). The reason for this choice is that Colaboratory provides high-performance GPUs, which are beneficial for training deep learning models. Specifically, I utilized the NVIDIA A100 GPU for our tasks. For programming, I opted to use Python and selected Keras and Tensorflow as our deep learning libraries for training.
+
+# 2.2 Image Preprocessing
+In conducting the training, I performed several preprocessing steps on the image data. First, I applied a process to unify all images to 64x64 resolution because GAN cannot properly learn if the input image resolution is not consistent. Second, I normalized each pixel value to be in the range of -1 to 1. In DCGAN, the last activation function of the Generator network is tanh, which results in generated images having a scale of [-1, 1]. Therefore, I subtracted the mean pixel value of 127.5 and divided by the same value to convert the value range to [-1, 1]. This scaling is expected to normalize the brightness values of the images and stabilize the model's learning. Fllowing shows the program code for these preprocessing steps.
+<p align="center">
+  <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/a1b7fe45-f437-436e-8577-0f45a804f4f0" />
+</p>
+
+# 2.2 Generator
+The generator of proposal model is composed of a combination of fully connected layers, transpose convolution layers, batch normalization layers, and activation functions, using the Sequential function. The Fllowing shows Generator.
+<p align="center">
+  <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/7f794e88-1aa3-4fd6-8dfd-792487eff639" />
+</p>
+
+Firstly, a fully connected layer is added to the model, which takes random noise as input and is used to convert it into a matrix of size 16x16x128. Then, transpose convolutions are repeated, gradually increasing the size of the features (upsampling), and generating images. Finally, this process is repeated until the image reaches a resolution of 64x64. Batch normalization is utilized in the transpose convolution layers. Batch normalization is a method that normalizes the data distribution in each layer (to have a mean of 0 and a variance of 1), which enhances the convergence of learning and reduces the dependence on initial parameter values. After normalization, the ReLU (Rectified Linear Unit) activation function is used. ReLU outputs 0 for inputs less than or equal to 0 and the input value for inputs greater than 0. It has a very simple structure, low computational cost, and can handle the problem of gradient disappearance. The gradient disappearance problem refers to the phenomenon in which the gradient gradually decreases as the number of layers in deep learning increases, and hardly updates when it reaches the first layer during backpropagation. The Fllowing shows the ReLU.
+<p align="center">
+  <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/499fef92-ff9e-4b66-a704-336ae9bf6c6c" />
+</p>
+
+After repeating these transpose convolution processes, only the final output layer applies the activation function Tanh to generate learning. The Tanh function outputs in the range of -1 to 1. The reason for using the Tanh function is to limit the generated image's pixel values to the range of -1 to 1, the same as the dataset's image.The Fllowing shows the Tanh function.
+<p align="center">
+  <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/9555d2cb-936d-4dab-8de4-1f032d77e383" />
+</p>
+
+# 2.3 Discriminator
+The discriminator in proposal model is composed of convolutional layers, GAP layer, Dropout layer, activation functions, and fully-connected layers, combined using Keras' Sequential function. The convolution is repeated several times to gradually reduce the feature size and ultimately determine whether the image data is real or fake (downsampling).The Fllowing shows the Discriminator.
+<p align="center">
+  <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/9d6edd83-0d33-4fa5-a8a3-f681b674f59e" />
+</p>
+
+In #Convolution 1 of the picture, convolution is performed while sliding by 2. Then, the LeakyReLU activation function is applied. LeakyReLU defines the negative slope with the argument "a," which allows the output to differ even when the input is less than 0.The Fllowing shows the LeakyReLU function.
+<p align="center">
+  <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/53f1e68c-1238-443d-9392-3c70394433fa" />
+</p>
+
+Similarly, convolution is performed with the same process in #Convolution 2, and then Dropout processing is applied with model.add(Dropout(0.25)). This is the original idea of the proposed model.In #Convolution 3, convolution and LeakyReLU function are applied similarly. Then, the GAP layer is added with model.add(GlobalAveragePooling2D()). This is also the original idea, which compresses the output of the previous convolutional layer into one dimension by taking the average.This can also help suppress learning. Then, a fully-connected layer with 256 units is added in #fully-connected layer1, and LeakyReLU function and Dropout processing are applied. Finally, an output layer with one unit is added in #fully-connected layer2, and the sigmoid function is applied to output the value. The sigmoid activation function is a function that scales input values between 0 and 1, and is commonly used in the output layer of neural networks. The Fllowing shows the sigmoid function.
+<p align="center">
+  <img src="https://github.com/makoto0825/Image-Generation-by-DCGAN/assets/120376737/798aaa61-d33a-483d-94c5-194fa0e54c13" />
+</p>
+
